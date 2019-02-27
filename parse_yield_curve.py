@@ -2,7 +2,7 @@ import datetime
 import xml.etree.ElementTree as ET
 
 current_date = datetime.datetime.now().strftime("%m-%d-%y")
-download_directory = '/home/eggy/yield_curve/downloads/'
+download_directory = '/home/eggy/Recession-Predictor/downloads/'
 filename = current_date + ".xml"
 
 def parseXML():
