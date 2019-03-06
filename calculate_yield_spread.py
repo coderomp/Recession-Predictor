@@ -5,11 +5,11 @@ current_date = datetime.datetime.now().strftime("%m-%d-%y")
 download_directory = '/home/eggy/Recession-Predictor/downloads/'
 filename = current_date + ".xml"
 
-def parseXML():
+def parse_xml():
     tree = ET.parse(download_directory + filename)
     root = tree.getroot()
 
-    print('DATE         10y-2y      10y-1y      10y-3m')
+    print('{0:8} {1:>8} {2:>8} {3:>8}'.format('DATE', '10y-2y', '10y-1y', '10y-3m'))
     for x in range(4, len(root)):
         yield_spread_date = datetime.datetime.strptime(root[x][6][0][1].text, '%Y-%m-%dT%H:%M:%S')
 
@@ -21,10 +21,13 @@ def parseXML():
         yield_spread_10_1 = bond_10_year - bond_1_year
         yield_spread_10_3m = bond_10_year - bond_3_month
 
-        print(yield_spread_date.strftime("%m-%d-%y") + ": " + "     %.2f        %.2f        %.2f" %(yield_spread_10_2, yield_spread_10_1, yield_spread_10_3m))
+        # print("{} {}".format(yield_spread_date.strftime("%m-%d-%y"), 2))
+
+        print("{0:8} {1:>8.2f} {2:>8.2f} {3:>8.2f}".format(yield_spread_date.strftime("%m-%d-%y"), yield_spread_10_2, yield_spread_10_1, yield_spread_10_3m))
+
 
 def main():
-    parseXML()
+    parse_xml()
 
 if __name__ == "__main__":
     main()
