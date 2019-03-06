@@ -1,12 +1,13 @@
 import datetime
 import xml.etree.ElementTree as ET
+import glob
+import os
 
-current_date = datetime.datetime.now().strftime("%m-%d-%y")
-download_directory = '/home/eggy/Recession-Predictor/downloads/'
-filename = current_date + ".xml"
+list_of_files = glob.glob('/home/eggy/Recession-Predictor/downloads/*.xml')
+latest_file = max(list_of_files, key=os.path.getctime)
 
 def parse_xml():
-    tree = ET.parse(download_directory + filename)
+    tree = ET.parse(latest_file)
     root = tree.getroot()
 
     print('{0:8} {1:>8} {2:>8} {3:>8}'.format('DATE', '10y-2y', '10y-1y', '10y-3m'))
@@ -20,8 +21,6 @@ def parse_xml():
         yield_spread_10_2 = bond_10_year - bond_2_year
         yield_spread_10_1 = bond_10_year - bond_1_year
         yield_spread_10_3m = bond_10_year - bond_3_month
-
-        # print("{} {}".format(yield_spread_date.strftime("%m-%d-%y"), 2))
 
         print("{0:8} {1:>8.2f} {2:>8.2f} {3:>8.2f}".format(yield_spread_date.strftime("%m-%d-%y"), yield_spread_10_2, yield_spread_10_1, yield_spread_10_3m))
 
